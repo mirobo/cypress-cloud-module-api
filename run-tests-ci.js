@@ -1,4 +1,4 @@
-const run = require('cypress-cloud');
+const { run } = require('cypress-cloud');
 const getCiBuildId = require('./getCiBuildId');
 
 async function main() {
