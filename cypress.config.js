@@ -4,6 +4,6 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       return cloudPlugin(on, config);
-    }
-  }
+    },
+  },
 });

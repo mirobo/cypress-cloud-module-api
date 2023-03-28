@@ -1,0 +1,58 @@
+<html>
+  <body>
+    <script>
+      const xhr1 = new XMLHttpRequest();
+      const xhr2 = new XMLHttpRequest();
+      const method = 'GET';
+
+      function logReadyState(nameOfXhr, xhr) {
+        // 0	UNSENT	Client has been created. open() not called yet.
+        // 1	OPENED	open() has been called.
+        // 2	HEADERS_RECEIVED	send() has been called, and headers and status are available.
+        // 3	LOADING	Downloading; responseText holds partial data.
+        // 4	DONE	The operation is complete.
+
+        console.log(`${nameOfXhr} ${xhr.readyState}`);
+      }
+
+      function beginXHR(xhr, param) {
+        logReadyState('begin ' + param, xhr);
+        xhr.open(method, 'https://httpbin.org/delay/1?param=' + param, true);
+        xhr.send();
+        logReadyState('sent ' + param, xhr);
+      }
+
+      function beginXHR1() {
+        beginXHR(xhr1, 'call1');
+        beginXHR(xhr1, 'call1');
+      }
+      function beginXHR2() {
+        beginXHR(xhr2, 'call2');
+      }
+      function abortXHR(xhr) {
+        // (() => {
+        //   setTimeout(() => null, 2000);
+        // })();
+        logReadyState('start abort', xhr);
+        xhr.abort();
+        logReadyState('aborted', xhr);
+      }
+      function abortXHR1() {
+        abortXHR(xhr1);
+      }
+      function abortXHR2() {
+        abortXHR(xhr2);
+      }
+
+      beginXHR(xhr1, 'call1');
+    </script>
+
+    <h1>Example of fetch abort</h1>
+    <hr />
+    <button onclick="beginXHR1();">Begin1</button>
+    <button onclick="abortXHR1();">Abort1</button>
+
+    <button onclick="beginXHR2();">Begin2</button>
+    <button onclick="abortXHR2();">Abort2</button>
+  </body>
+</html>

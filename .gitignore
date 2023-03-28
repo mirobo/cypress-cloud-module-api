@@ -1,6 +1,7 @@
 # Custom ignores
 package-lock.json
 .npmrc
+/.angular/**
 
 # Various outputs
 **/videos/**

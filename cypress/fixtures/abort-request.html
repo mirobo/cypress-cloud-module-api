@@ -1,0 +1,64 @@
+<html>
+  <body>
+    <script>
+      // Create an instance.
+      const controller1 = new AbortController();
+      const signal1 = controller1.signal;
+
+      const controller2 = new AbortController();
+      const signal2 = controller2.signal;
+
+      // Register a listenr.
+      signal1.addEventListener('abort', () => {
+        console.log('aborted signal1!');
+      });
+
+      signal2.addEventListener('abort', () => {
+        console.log('aborted signal2!');
+      });
+
+      function beginFetching1() {
+        beginFetching(signal1, 'call1');
+      }
+      function beginFetching2() {
+        beginFetching(signal2, 'call2');
+      }
+
+      function beginFetching(signal, param) {
+        console.log('Now fetching');
+        var urlToFetch = 'https://httpbin.org/delay/1?param=' + param; // https://jsonplaceholder.typicode.com/todos/3
+
+        fetch(urlToFetch, {
+          method: 'get',
+          signal: signal,
+        })
+          .then(function (response) {
+            console.log(`Fetch complete. (Not aborted)`);
+          })
+          .catch(function (err) {
+            console.error(` Err: ${err}`);
+          });
+      }
+
+      function abortFetching(controller) {
+        console.log('Now aborting');
+        // Abort.
+        controller.abort();
+      }
+      function abortFetching1() {
+        abortFetching(controller1);
+      }
+      function abortFetching2() {
+        abortFetching(controller2);
+      }
+    </script>
+
+    <h1>Example of fetch abort</h1>
+    <hr />
+    <button onclick="beginFetching1();">Begin1</button>
+    <button onclick="abortFetching1();">Abort1</button>
+
+    <button onclick="beginFetching2();">Begin2</button>
+    <button onclick="abortFetching2();">Abort2</button>
+  </body>
+</html>
