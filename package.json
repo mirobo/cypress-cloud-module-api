@@ -30,7 +30,7 @@
     "zone.js": "0.14.7"
   },
   "devDependencies": {
-    "cypress": "13.13.0",
+    "cypress": "13.10.0",
     "@angular-devkit/build-angular": "18.0.6",
     "@angular-devkit/core": "~18.0.6",
     "@angular/cli": "~18.0.6",

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SomeService } from './service';
 import { Store, select } from '@ngrx/store';
 import { fromEvent, Observable, of, switchMap } from 'rxjs';
-import { requestAction } from './ngrx-stuff';
+import { requestAction, selectCounter } from './ngrx-stuff';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,7 +11,9 @@ import { requestAction } from './ngrx-stuff';
 })
 export class AppComponent implements OnInit {
   title = 'Tour of Heroes';
-  constructor(private store: Store<{counter: number}>) {
+  counter$ = this.store.select(selectCounter);
+
+  constructor(private store: Store) {
   }
 
   beginRequest() {
