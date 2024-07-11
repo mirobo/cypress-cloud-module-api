@@ -14,15 +14,16 @@ describe('intercept issue', () => {
           res.send(200, { ...res.body, dummy: 'some data injected via cypress intercept' });
         });
       }).as('myAlias');
+
       cy.visit('http://localhost:4200/');
       cy.wait('@myAlias');
       cy.contains('trigger requests').click();
 
-      cy.contains('counter: 3')
+      cy.contains('counter: 3') // use cy.contains, to avoid triggering "socked closed" error
       cy.get('@myAlias.all').should('have.length', 3)
     })
 
-    it('req.on("before:response")', () => {
+    it('req.on("before:response") - API should have been called 3 times, but Cypress expects 6', () => {
       cy.intercept({ url: '/delay/*', method: 'GET' }, (req) => {
         req.on('before:response', (res) => {
           res.send(200, { ...res.body, dummy: 'some data injected via cypress intercept' });
@@ -40,7 +41,6 @@ describe('intercept issue', () => {
       cy.contains('counter: 3')
       cy.get('@myAlias.all').should('have.length', 3)
     })
-
 
   })
 
